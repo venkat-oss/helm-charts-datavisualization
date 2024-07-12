@@ -74,8 +74,8 @@ superset:
 ingress:
   enabled: false
   tls: true
-  ingressClassName: ""
-  annotations: []
+  # ingressClassName: ""
+  annotations: {}
     # kubernetes.io/tls-acme: "true"
   hostname: chart-example.local
   userHostname: chart-example-user.local
