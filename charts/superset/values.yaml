@@ -44,6 +44,7 @@ superset:
   bootstrapScript: |
     #!/bin/bash
     pip install \
+      clickhouse-connect \
       duckdb-engine \
       psycopg2-binary \
       sqlalchemy-trino \
