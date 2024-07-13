@@ -2,6 +2,30 @@ apiVersion: v1
 entries:
   opentelemetry-collector:
   - apiVersion: v2
+    created: "2024-07-13T03:53:51.10276656Z"
+    dependencies:
+    - name: opentelemetry-collector
+      repository: https://open-telemetry.github.io/opentelemetry-helm-charts
+      version: 0.97.1
+    - name: library-chart
+      repository: https://inseefrlab.github.io/helm-charts-interactive-services
+      version: 1.5.23
+    description: A Helm chart for OpenTelemetry Collector
+    digest: 270bd6dfa5a7de18f7cdd8e851f5cef73481a9a493387741f70cb8d48239fcf7
+    home: https://opentelemetry.io/
+    icon: https://avatars.githubusercontent.com/u/49998002?s=200&v=4
+    keywords:
+    - BI
+    - Visualization
+    name: opentelemetry-collector
+    sources:
+    - https://github.com/open-telemetry/opentelemetry-helm-charts/tree/main/charts/opentelemetry-collector
+    - https://github.com/open-telemetry/opentelemetry-collector
+    type: application
+    urls:
+    - https://github.com/venkat-oss/helm-charts-datavisualization/releases/download/opentelemetry-collector-0.1.2/opentelemetry-collector-0.1.2.tgz
+    version: 0.1.2
+  - apiVersion: v2
     created: "2024-07-13T02:42:54.921022522Z"
     dependencies:
     - name: opentelemetry-collector
@@ -210,4 +234,4 @@ entries:
     urls:
     - https://github.com/venkat-oss/helm-charts-datavisualization/releases/download/superset-0.1.6/superset-0.1.6.tgz
     version: 0.1.6
-generated: "2024-07-13T02:42:54.921038111Z"
+generated: "2024-07-13T03:53:51.102792498Z"
