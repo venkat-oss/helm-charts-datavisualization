@@ -28,8 +28,541 @@
             "repository": {
               "title": "The repository Schema",
               "type": "string",
-              "default": "otel/opentelemetry-collector-k8s",
+              "default": "otel/opentelemetry-collector-contrib",
               "render": "textArea"
+            }
+          }
+        },
+        "config": {
+          "title": "The config Schema",
+          "type": "object",
+          "default": {},
+          "required": [
+            "exporters",
+            "extensions",
+            "processors",
+            "receivers",
+            "service"
+          ],
+          "properties": {
+            "exporters": {
+              "title": "The exporters Schema",
+              "type": "object",
+              "default": {},
+              "render": "textArea",
+              "required": [
+                "debug"
+              ],
+              "properties": {
+                "debug": {
+                  "title": "The debug Schema",
+                  "type": "object",
+                  "default": {},
+                  "required": [],
+                  "properties": {}
+                }
+              }
+            },
+            "extensions": {
+              "title": "The extensions Schema",
+              "type": "object",
+              "default": {},
+              "required": [
+                "health_check",
+                "memory_ballast"
+              ],
+              "properties": {
+                "health_check": {
+                  "title": "The health_check Schema",
+                  "type": "object",
+                  "default": {},
+                  "required": [
+                    "endpoint"
+                  ],
+                  "properties": {
+                    "endpoint": {
+                      "title": "The endpoint Schema",
+                      "type": "string",
+                      "default": "${env:MY_POD_IP}:13133"
+                    }
+                  }
+                },
+                "memory_ballast": {
+                  "title": "The memory_ballast Schema",
+                  "type": "object",
+                  "default": {},
+                  "required": [],
+                  "properties": {}
+                }
+              }
+            },
+            "processors": {
+              "title": "The processors Schema",
+              "type": "object",
+              "default": {},
+              "required": [
+                "batch",
+                "memory_limiter"
+              ],
+              "properties": {
+                "batch": {
+                  "title": "The batch Schema",
+                  "type": "object",
+                  "default": {},
+                  "required": [],
+                  "properties": {}
+                },
+                "memory_limiter": {
+                  "title": "The memory_limiter Schema",
+                  "type": "null",
+                  "default": null,
+                  "examples": [
+                    null
+                  ]
+                }
+              }
+            },
+            "receivers": {
+              "title": "The receivers Schema",
+              "type": "object",
+              "default": {},
+              "required": [
+                "jaeger",
+                "otlp",
+                "prometheus",
+                "zipkin"
+              ],
+              "properties": {
+                "jaeger": {
+                  "title": "The jaeger Schema",
+                  "type": "object",
+                  "default": {},
+                  "required": [
+                    "protocols"
+                  ],
+                  "properties": {
+                    "protocols": {
+                      "title": "The protocols Schema",
+                      "type": "object",
+                      "default": {},
+                      "required": [
+                        "grpc",
+                        "thrift_http",
+                        "thrift_compact"
+                      ],
+                      "properties": {
+                        "grpc": {
+                          "title": "The grpc Schema",
+                          "type": "object",
+                          "default": {},
+                          "required": [
+                            "endpoint"
+                          ],
+                          "properties": {
+                            "endpoint": {
+                              "title": "The endpoint Schema",
+                              "type": "string",
+                              "default": "${env:MY_POD_IP}:14250"
+                            }
+                          }
+                        },
+                        "thrift_http": {
+                          "title": "The thrift_http Schema",
+                          "type": "object",
+                          "default": {},
+                          "required": [
+                            "endpoint"
+                          ],
+                          "properties": {
+                            "endpoint": {
+                              "title": "The endpoint Schema",
+                              "type": "string",
+                              "default": "${env:MY_POD_IP}:14268"
+                            }
+                          }
+                        },
+                        "thrift_compact": {
+                          "title": "The thrift_compact Schema",
+                          "type": "object",
+                          "default": {},
+                          "required": [
+                            "endpoint"
+                          ],
+                          "properties": {
+                            "endpoint": {
+                              "title": "The endpoint Schema",
+                              "type": "string",
+                              "default": "${env:MY_POD_IP}:6831"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "otlp": {
+                  "title": "The otlp Schema",
+                  "type": "object",
+                  "default": {},
+                  "required": [
+                    "protocols"
+                  ],
+                  "properties": {
+                    "protocols": {
+                      "title": "The protocols Schema",
+                      "type": "object",
+                      "default": {},
+                      "required": [
+                        "grpc",
+                        "http"
+                      ],
+                      "properties": {
+                        "grpc": {
+                          "title": "The grpc Schema",
+                          "type": "object",
+                          "default": {},
+                          "required": [
+                            "endpoint"
+                          ],
+                          "properties": {
+                            "endpoint": {
+                              "title": "The endpoint Schema",
+                              "type": "string",
+                              "default": "${env:MY_POD_IP}:4317"
+                            }
+                          }
+                        },
+                        "http": {
+                          "title": "The http Schema",
+                          "type": "object",
+                          "default": {},
+                          "required": [
+                            "endpoint"
+                          ],
+                          "properties": {
+                            "endpoint": {
+                              "title": "The endpoint Schema",
+                              "type": "string",
+                              "default": "${env:MY_POD_IP}:4318"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "prometheus": {
+                  "title": "The prometheus Schema",
+                  "type": "object",
+                  "default": {},
+                  "required": [
+                    "config"
+                  ],
+                  "properties": {
+                    "config": {
+                      "title": "The config Schema",
+                      "type": "object",
+                      "default": {},
+                      "required": [
+                        "scrape_configs"
+                      ],
+                      "properties": {
+                        "scrape_configs": {
+                          "title": "The scrape_configs Schema",
+                          "type": "array",
+                          "default": [],
+                          "items": {
+                            "title": "A Schema",
+                            "type": "object",
+                            "default": {},
+                            "required": [
+                              "job_name",
+                              "scrape_interval",
+                              "static_configs"
+                            ],
+                            "properties": {
+                              "job_name": {
+                                "title": "The job_name Schema",
+                                "type": "string",
+                                "default": "opentelemetry-collector"
+                              },
+                              "scrape_interval": {
+                                "title": "The scrape_interval Schema",
+                                "type": "string",
+                                "default": "10s"
+                              },
+                              "static_configs": {
+                                "title": "The static_configs Schema",
+                                "type": "array",
+                                "default": [],
+                                "items": {
+                                  "title": "A Schema",
+                                  "type": "object",
+                                  "default": {},
+                                  "required": [
+                                    "targets"
+                                  ],
+                                  "properties": {
+                                    "targets": {
+                                      "title": "The targets Schema",
+                                      "type": "array",
+                                      "default": [],
+                                      "items": {
+                                        "title": "A Schema",
+                                        "type": "string",
+                                        "default": "${env:MY_POD_IP}:8888"
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "zipkin": {
+                  "title": "The zipkin Schema",
+                  "type": "object",
+                  "default": {},
+                  "required": [
+                    "endpoint"
+                  ],
+                  "properties": {
+                    "endpoint": {
+                      "title": "The endpoint Schema",
+                      "type": "string",
+                      "default": "${env:MY_POD_IP}:9411"
+                    }
+                  }
+                }
+              }
+            },
+            "service": {
+              "title": "The service Schema",
+              "type": "object",
+              "default": {},
+              "required": [
+                "telemetry",
+                "extensions",
+                "pipelines"
+              ],
+              "properties": {
+                "telemetry": {
+                  "title": "The telemetry Schema",
+                  "type": "object",
+                  "default": {},
+                  "required": [
+                    "metrics"
+                  ],
+                  "properties": {
+                    "metrics": {
+                      "title": "The metrics Schema",
+                      "type": "object",
+                      "default": {},
+                      "required": [
+                        "address"
+                      ],
+                      "properties": {
+                        "address": {
+                          "title": "The address Schema",
+                          "type": "string",
+                          "default": "${env:MY_POD_IP}:8888"
+                        }
+                      }
+                    }
+                  }
+                },
+                "extensions": {
+                  "title": "The extensions Schema",
+                  "type": "array",
+                  "default": [
+                    "health_check",
+                    "memory_ballast"
+                  ],
+                  "items": {
+                    "title": "A Schema",
+                    "type": "string",
+                    "examples": [
+                      "health_check",
+                      "memory_ballast"
+                    ]
+                  }
+                },
+                "pipelines": {
+                  "title": "The pipelines Schema",
+                  "type": "object",
+                  "default": {},
+                  "render": "textArea",
+                  "required": [
+                    "logs",
+                    "metrics",
+                    "traces"
+                  ],
+                  "properties": {
+                    "logs": {
+                      "title": "The logs Schema",
+                      "type": "object",
+                      "default": {},
+                      "required": [
+                        "exporters",
+                        "processors",
+                        "receivers"
+                      ],
+                      "properties": {
+                        "exporters": {
+                          "title": "The exporters Schema",
+                          "type": "array",
+                          "default": [],
+                          "items": {
+                            "title": "A Schema",
+                            "type": "string",
+                            "default": "debug"
+                          }
+                        },
+                        "processors": {
+                          "title": "The processors Schema",
+                          "type": "array",
+                          "default": [
+                            "memory_limiter",
+                            "batch"
+                          ],
+                          "items": {
+                            "title": "A Schema",
+                            "type": "string",
+                            "examples": [
+                              "memory_limiter",
+                              "batch"
+                            ]
+                          }
+                        },
+                        "receivers": {
+                          "title": "The receivers Schema",
+                          "type": "array",
+                          "default": [],
+                          "items": {
+                            "title": "A Schema",
+                            "type": "string",
+                            "default": "otlp"
+                          }
+                        }
+                      }
+                    },
+                    "metrics": {
+                      "title": "The metrics Schema",
+                      "type": "object",
+                      "default": {},
+                      "required": [
+                        "exporters",
+                        "processors",
+                        "receivers"
+                      ],
+                      "properties": {
+                        "exporters": {
+                          "title": "The exporters Schema",
+                          "type": "array",
+                          "default": [],
+                          "items": {
+                            "title": "A Schema",
+                            "type": "string",
+                            "default": "debug"
+                          }
+                        },
+                        "processors": {
+                          "title": "The processors Schema",
+                          "type": "array",
+                          "default": [
+                            "memory_limiter",
+                            "batch"
+                          ],
+                          "items": {
+                            "title": "A Schema",
+                            "type": "string",
+                            "examples": [
+                              "memory_limiter",
+                              "batch"
+                            ]
+                          }
+                        },
+                        "receivers": {
+                          "title": "The receivers Schema",
+                          "type": "array",
+                          "default": [
+                            "otlp",
+                            "prometheus"
+                          ],
+                          "items": {
+                            "title": "A Schema",
+                            "type": "string",
+                            "examples": [
+                              "otlp",
+                              "prometheus"
+                            ]
+                          }
+                        }
+                      }
+                    },
+                    "traces": {
+                      "title": "The traces Schema",
+                      "type": "object",
+                      "default": {},
+                      "required": [
+                        "exporters",
+                        "processors",
+                        "receivers"
+                      ],
+                      "properties": {
+                        "exporters": {
+                          "title": "The exporters Schema",
+                          "type": "array",
+                          "default": [],
+                          "items": {
+                            "title": "A Schema",
+                            "type": "string",
+                            "default": "debug"
+                          }
+                        },
+                        "processors": {
+                          "title": "The processors Schema",
+                          "type": "array",
+                          "default": [
+                            "memory_limiter",
+                            "batch"
+                          ],
+                          "items": {
+                            "title": "A Schema",
+                            "type": "string",
+                            "examples": [
+                              "memory_limiter",
+                              "batch"
+                            ]
+                          }
+                        },
+                        "receivers": {
+                          "title": "The receivers Schema",
+                          "type": "array",
+                          "default": [
+                            "otlp",
+                            "jaeger",
+                            "zipkin"
+                          ],
+                          "items": {
+                            "title": "A Schema",
+                            "type": "string",
+                            "examples": [
+                              "otlp",
+                              "jaeger",
+                              "zipkin"
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
             }
           }
         }
@@ -136,7 +669,7 @@
           "type": "boolean",
           "default": true,
           "x-onyxia": {
-            "hidden": true,
+            "hidden": false,
             "overwriteDefaultWith": "k8s.ingress"
           }
         },
@@ -148,7 +681,7 @@
             "value": "{{project.id}}-{{k8s.randomSubdomain}}.{{k8s.domain}}"
           },
           "x-onyxia": {
-            "hidden": true,
+            "hidden": false,
             "overwriteDefaultWith": "{{project.id}}-{{k8s.randomSubdomain}}.{{k8s.domain}}"
           }
         },
@@ -158,11 +691,11 @@
           "title": "ingressClassName",
           "default": "",
           "x-form": {
-            "hidden": true,
+            "hidden": false,
             "value": "{{k8s.ingressClassName}}"
           },
           "x-onyxia": {
-            "hidden": true,
+            "hidden": false,
             "overwriteDefaultWith": "{{k8s.ingressClassName}}"
           }
         }
