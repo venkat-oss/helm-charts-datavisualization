@@ -1278,182 +1278,195 @@
       ]
     },
     "security": {
+      "description": "security specific configuration",
       "type": "object",
       "properties": {
         "password": {
-          "type": "string"
-        },
-        "networkPolicy": {
-          "type": "object",
-          "properties": {
-            "enabled": {
-              "type": "boolean"
-            },
-            "from": {
-              "type": "array",
-              "items": {}
-            }
-          },
-          "required": [
-            "enabled",
-            "from"
-          ]
+          "type": "string",
+          "description": "Password",
+          "default": "changeme",
+          "render": "password",
+          "x-onyxia": {
+            "overwriteDefaultWith": "{{service.oneTimePassword}}"
+          }
         },
         "allowlist": {
           "type": "object",
+          "description": "IP protection",
           "properties": {
             "enabled": {
-              "type": "boolean"
+              "type": "boolean",
+              "title": "Enable IP protection",
+              "description": "Only the configured set of IPs will be able to reach the service",
+              "default": true,
+              "x-onyxia": {
+                "overwriteDefaultWith": "region.defaultIpProtection"
+              }
             },
             "ip": {
-              "type": "string"
+              "type": "string",
+              "description": "the white list of IP is whitespace",
+              "title": "Whitelist of IP",
+              "x-onyxia": {
+                "overwriteDefaultWith": "{{user.ip}}"
+              }
             }
-          },
-          "required": [
-            "enabled",
-            "ip"
-          ]
+          }
+        },
+        "networkPolicy": {
+          "type": "object",
+          "description": "Define access policy to the service",
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "title": "Enable network policy",
+              "description": "Only pod from the same namespace will be allowed",
+              "default": true,
+              "x-onyxia": {
+                "overwriteDefaultWith": "region.defaultNetworkPolicy"
+              }
+            },
+            "from": {
+              "type": "array",
+              "description": "Array of source allowed to have network access to your service",
+              "default": [],
+              "x-onyxia": {
+                "hidden": true,
+                "overwriteDefaultWith": "region.from"
+              }
+            }
+          }
         }
-      },
-      "required": [
-        "password",
-        "networkPolicy",
-        "allowlist"
-      ]
+      }
     },
     "networking": {
       "type": "object",
+      "form": true,
+      "title": "Networking detail",
       "properties": {
-        "type": {
-          "type": "string"
-        },
-        "clusterIP": {
-          "type": "string"
-        },
-        "service": {
-          "type": "object",
-          "properties": {
-            "port": {
-              "type": "integer"
-            }
-          },
-          "required": [
-            "port"
-          ]
-        },
         "user": {
           "type": "object",
+          "description": "user defined port",
           "properties": {
             "enabled": {
-              "type": "boolean"
+              "type": "boolean",
+              "title": "Enable a custom service port",
+              "description": "Enable a custom service port",
+              "default": false
             },
             "port": {
-              "type": "integer"
+              "type": "integer",
+              "description": "port of the custom service",
+              "title": "Custom service port",
+              "hidden": {
+                "value": false,
+                "path": "networking/user/enabled"
+              },
+              "default": 5000
             }
-          },
-          "required": [
-            "enabled",
-            "port"
-          ]
+          }
         }
-      },
-      "required": [
-        "type",
-        "clusterIP",
-        "service",
-        "user"
-      ]
+      }
     },
     "ingress": {
       "type": "object",
+      "form": true,
+      "title": "Ingress Details",
       "properties": {
         "enabled": {
-          "type": "boolean"
-        },
-        "tls": {
-          "type": "boolean"
-        },
-        "ingressClassName": {
-          "type": "string"
-        },
-        "annotations": {
-          "type": "array",
-          "items": {}
+          "description": "Enable Ingress",
+          "type": "boolean",
+          "default": true,
+          "x-onyxia": {
+              "hidden": true,
+              "overwriteDefaultWith": "k8s.ingress"
+          }
         },
         "hostname": {
-          "type": "string"
+            "type": "string",
+            "form": true,
+            "title": "Hostname",
+            "x-form": {
+              "value": "{{project.id}}-{{k8s.randomSubdomain}}.{{k8s.domain}}"
+            },
+            "x-onyxia": {
+                "hidden": true,
+                "overwriteDefaultWith": "{{project.id}}-{{k8s.randomSubdomain}}.{{k8s.domain}}"
+            }
         },
-        "userHostname": {
-          "type": "string"
-        },
-        "useCertManager": {
-          "type": "boolean"
-        },
-        "certManagerClusterIssuer": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "enabled",
-        "tls",
-        "ingressClassName",
-        "annotations",
-        "hostname",
-        "userHostname",
-        "useCertManager",
-        "certManagerClusterIssuer"
-      ]
+        "ingressClassName": {
+            "type": "string",
+            "form": true,
+            "title": "ingressClassName",
+            "default": "",
+            "x-form": {
+                "hidden": true,
+                "value": "{{k8s.ingressClassName}}"
+            },
+            "x-onyxia": {
+                "hidden": true,
+                "overwriteDefaultWith": "{{k8s.ingressClassName}}"
+            }
+        }    
+      }
     },
     "route": {
       "type": "object",
+      "form": true,
+      "title": "Route details",
       "properties": {
         "enabled": {
-          "type": "boolean"
-        },
-        "annotations": {
-          "type": "array",
-          "items": {}
+          "description": "Enable route",
+          "type": "boolean",
+          "default": false,
+          "x-onyxia": {
+            "hidden": true,
+            "overwriteDefaultWith": "k8s.route"
+          }
         },
         "hostname": {
-          "type": "string"
+          "type": "string",
+          "form": true,
+          "title": "Hostname",
+          "x-onyxia": {
+            "hidden": true,
+            "overwriteDefaultWith": "{{project.id}}-{{k8s.randomSubdomain}}-0.{{k8s.domain}}"
+          }
         },
         "userHostname": {
-          "type": "string"
-        },
-        "tls": {
-          "type": "object",
-          "properties": {
-            "termination": {
-              "type": "string"
-            }
-          },
-          "required": [
-            "termination"
-          ]
-        },
-        "wildcardPolicy": {
-          "type": "string"
+          "type": "string",
+          "form": true,
+          "title": "Hostname",
+          "x-onyxia": {
+            "hidden": true,
+            "overwriteDefaultWith": "{{project.id}}-{{k8s.randomSubdomain}}-user.{{k8s.domain}}"
+          }
         }
-      },
-      "required": [
-        "enabled",
-        "annotations",
-        "hostname",
-        "userHostname",
-        "tls",
-        "wildcardPolicy"
-      ]
+      }
     },
     "userPreferences": {
+      "description": "User Preferences",
       "type": "object",
       "properties": {
+        "darkMode": {
+          "type": "boolean",
+          "description": "dark mode is or is not enabled",
+          "default": false,
+          "x-onyxia": {
+            "hidden": true,
+            "overwriteDefaultWith": "user.darkMode"
+          }
+        },
         "language": {
-          "type": "string"
+          "type": "string",
+          "description": "Preferred language",
+          "default": "en",
+          "x-onyxia": {
+            "hidden": true,
+            "overwriteDefaultWith": "user.lang"
+          }
         }
-      },
-      "required": [
-        "language"
-      ]
+      }
     }
   },
   "required": [
