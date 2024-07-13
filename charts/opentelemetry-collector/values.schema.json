@@ -115,7 +115,7 @@
                 "memory_limiter": {
                   "title": "The memory_limiter Schema",
                   "type": "null",
-                  "default": null,
+                  "default": "null",
                   "examples": [
                     null
                   ]
